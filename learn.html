@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Learn Git & GitHub</title>
+  <style>
+    :root {
+      --bg: #0f1419;
+      --surface: #1a2332;
+      --border: #2d3a4f;
+      --text: #e7ecf3;
+      --muted: #8b9cb3;
+      --accent: #58a6ff;
+      --accent-soft: rgba(88, 166, 255, 0.12);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    a { color: var(--accent); }
+
+    .hero {
+      padding: 2.5rem 1.5rem 2rem;
+      background: linear-gradient(160deg, #1a2a44 0%, var(--bg) 70%);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .hero h1 {
+      margin: 0 0 0.5rem;
+      font-size: clamp(1.75rem, 4vw, 2.25rem);
+    }
+
+    .hero p {
+      margin: 0;
+      max-width: 42rem;
+      color: var(--muted);
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: 2rem;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 1.5rem;
+    }
+
+    @media (min-width: 900px) {
+      .layout {
+        grid-template-columns: 220px minmax(0, 1fr);
+        align-items: start;
+      }
+    }
+
+    nav.toc {
+      position: sticky;
+      top: 1rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1rem 1.1rem;
+    }
+
+    nav.toc h2 {
+      margin: 0 0 0.75rem;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--muted);
+    }
+
+    nav.toc ol {
+      margin: 0;
+      padding-left: 1.2rem;
+      font-size: 0.9rem;
+    }
+
+    nav.toc li + li { margin-top: 0.35rem; }
+
+    main { min-width: 0; }
+
+    section {
+      scroll-margin-top: 1rem;
+      margin-bottom: 2.5rem;
+    }
+
+    section > h2 {
+      margin: 0 0 0.35rem;
+      font-size: 1.35rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 2px solid var(--accent-soft);
+    }
+
+    section > .lead {
+      margin: 0 0 1.25rem;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .step-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      counter-reset: step;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    .step-list > li {
+      counter-increment: step;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    .step-list > li::before {
+      content: "Step " counter(step);
+      display: block;
+      padding: 0.55rem 1rem;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--accent);
+      background: var(--accent-soft);
+      border-bottom: 1px solid var(--border);
+    }
+
+    figure {
+      margin: 0;
+    }
+
+    figure img {
+      display: block;
+      width: 100%;
+      height: auto;
+      background: #000;
+    }
+
+    figcaption {
+      padding: 0.85rem 1rem 1rem;
+      font-size: 0.92rem;
+    }
+
+    figcaption strong {
+      display: block;
+      margin-bottom: 0.25rem;
+      color: var(--text);
+    }
+
+    .flow-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    .flow-steps {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      padding: 1rem;
+      margin: 0;
+      list-style: none;
+      font-family: ui-monospace, "SF Mono", Menlo, monospace;
+      font-size: 0.82rem;
+    }
+
+    .flow-steps li {
+      background: var(--accent-soft);
+      color: var(--accent);
+      padding: 0.35rem 0.65rem;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+    }
+
+    .flow-steps li:not(:last-child)::after {
+      content: " →";
+      color: var(--muted);
+      margin-left: 0.35rem;
+    }
+
+    footer.page-foot {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 1.5rem 2rem;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+  <header class="hero">
+    <h1>Learn Git &amp; GitHub</h1>
+    <p>
+      A visual walkthrough from the GitHub learning videos. Work through each section in order,
+      or jump to a topic from the table of contents.
+    </p>
+    <p style="margin-top: 0.75rem;"><a href="index.html">← Back to practice demo</a></p>
+  </header>
+
+  <div class="layout">
+    <nav class="toc" aria-label="Table of contents">
+      <h2>Contents</h2>
+      <ol>
+        <li><a href="#flow">The GitHub Flow</a></li>
+        <li><a href="#local">Local Git basics</a></li>
+        <li><a href="#repos">Repositories &amp; clone</a></li>
+        <li><a href="#connect">Connect local to GitHub</a></li>
+        <li><a href="#sync">Sync with remote</a></li>
+        <li><a href="#branches">Branches</a></li>
+        <li><a href="#opensource">Fork &amp; open source</a></li>
+        <li><a href="#setup">Project setup</a></li>
+      </ol>
+    </nav>
+
+    <main>
+      <section id="flow">
+        <h2>1. The GitHub Flow</h2>
+        <p class="lead">
+          The standard loop: clone a repo, branch, commit locally, push, open a pull request, then merge.
+        </p>
+        <ul class="flow-steps" aria-label="GitHub flow commands">
+          <li>git clone</li>
+          <li>git checkout -b newbranch</li>
+          <li>git add .</li>
+          <li>git commit -m "message"</li>
+          <li>git push</li>
+          <li>open a PR</li>
+          <li>merge PR &amp; delete branch</li>
+        </ul>
+        <div class="flow-card" style="margin-top: 1rem;">
+          <figure>
+            <img src="tutorial-image/GitHub%20workflow.png" alt="Diagram of the GitHub Flow from clone through merge" width="1200" height="675" loading="lazy">
+            <figcaption><strong>GitHub workflow overview</strong>End-to-end flow from cloning to merging a pull request.</figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <section id="local">
+        <h2>2. Local Git basics</h2>
+        <p class="lead">Initialize a repo, stage files, commit changes, and inspect history from the terminal.</p>
+        <ol class="step-list">
+          <li>
+            <figure>
+              <img src="tutorial-image/git%20init.png" alt="Terminal showing git init and git status with hello.md" loading="lazy">
+              <figcaption><strong>Initialize a repository</strong>Use <code>git init</code> to enable version control, then <code>git status</code> to see untracked files.</figcaption>
+            </figure>
+          </li>
+          <li>
+            <figure>
+              <img src="tutorial-image/git%20add%20and%20git%20commit.png" alt="Terminal showing git add and git commit" loading="lazy">
+              <figcaption><strong>Stage and commit</strong>Stage changes with <code>git add</code>, then save a snapshot with <code>git commit -m "message"</code>.</figcaption>
+            </figure>
+          </li>
+          <li>
+            <figure>
+              <img src="tutorial-image/git%20show%20-%20result.png" alt="Terminal output from git show" loading="lazy">
+              <figcaption><strong>Inspect a commit</strong><code>git show</code> displays the latest commit details, including the diff.</figcaption>
+            </figure>
+          </li>
+          <li>
+            <figure>
+              <img src="tutorial-image/some%20basic%20github%20commands.png" alt="Reference of basic Git and GitHub commands" loading="lazy">
+              <figcaption><strong>Command cheat sheet</strong>Handy reference for everyday Git and GitHub commands.</figcaption>
+            </figure>
+          </li>
+        </ol>
+      </section>
+
+      <section id="repos">
+        <h2>3. Repositories &amp; clone</h2>
+        <p class="lead">Create a repo on GitHub, authenticate, and get a copy on your machine—via CLI or GitHub Desktop.</p>
+        <ol class="step-list">
+          <li>
+            <figure>
+              <img src="tutorial-image/create%20a%20new%20repository.png" alt="GitHub UI for creating a new repository" loading="lazy">
+              <figcaption><strong>Create a new repository</strong>Start a project on GitHub with a name, description, and visibility.</figcaption>
+            </figure>
+          </li>
+          <li>
+            <figure>
+              <img src="tutorial-image/create%20a%20remote%20repository%20in%20GitHub.png" alt="GitHub new repository settings" loading="lazy">
+              <figcaption><strong>Remote repository options</strong>Choose defaults like README, .gitignore, and license when creating the repo.</figcaption>
+            </figure>
+          </li>
+          <li>
+            <figure>
+              <img src="tutorial-image/create%20a%20new%20remote%20repository%20and%20generate%20token.png" alt="Creating a repository and personal access token" loading="lazy">
+              <figcaption><strong>Authentication</strong>Generate a personal access token so Git can push to GitHub securely.</figcaption>
+            </figure>
+          </li>
+          <li>
+            <figure>
+              <img src="tutorial-image/git%20clone.png" alt="Terminal showing git clone" loading="lazy">
+              <figcaption><strong>Clone with Git</strong><code>git clone &lt;url&gt;</code> downloads the full repository to your computer.</figcaption>
+            </figure>
+          </li>
+          <li>
+            <figure>
+              <img src="tutorial-image/Screenshot%202026-05-16%20at%2010.01.19%E2%80%AFAM.png" alt="Terminal showing git clone and git checkout -b version1" loading="lazy">
+              <figcaption><strong>Clone then branch</strong>After cloning, <code>cd</code> into the project and create a branch with <code>git checkout -b &lt;name&gt;</code>.</figcaption>
+            </figure>
+          </li>
+          <li>
+            <figure>
+              <img src="tutorial-image/github%20desktop%20cloning%20example.png" alt="GitHub Desktop clone repository dialog" loading="lazy">
+              <figcaption><strong>Clone with GitHub Desktop</strong>Same result as <code>git clone</code>, using a graphical interface.</figcaption>
+            </figure>
+          </li>
+        </ol>
+      </section>
+
+      <section id="connect">
+        <h2>4. Connect local project to GitHub</h2>
+        <p class="lead">Link an existing folder on your machine to a remote repo and publish your work.</p>
+        <ol class="step-list">
+          <li>
+            <figure>
+              <img src="tutorial-image/instruction%20to%20move%20a%20local%20project%20to%20a%20remote%20repository%20in%20GitHub.png" alt="GitHub instructions for pushing an existing local repository" loading="lazy">
+              <figcaption><strong>GitHub setup instructions</strong>GitHub shows the exact commands to connect an existing local project.</figcaption>
+            </figure>
+          </li>
+          <li>
+            <figure>
+              <img src="tutorial-image/move%20a%20local%20project%20to%20a%20remote%20repository.png" alt="Terminal commands to add remote and push" loading="lazy">
+              <figcaption><strong>Add remote and push</strong>Typical steps: <code>git remote add origin</code>, then <code>git push -u origin main</code>.</figcaption>
+            </figure>
+          </li>
+          <li>
+            <figure>
+              <img src="tutorial-image/add%20code%20to%20github%20process.png" alt="Overview of adding code to GitHub" loading="lazy">
+              <figcaption><strong>Add code workflow</strong>How local commits become commits on GitHub.</figcaption>
+            </figure>
+          </li>
+          <li>
+            <figure>
+              <img src="tutorial-image/push%20code%20to%20remote%20repository.png" alt="Terminal showing git push" loading="lazy">
+              <figcaption><strong>Push to remote</strong><code>git push</code> uploads your commits to the remote repository.</figcaption>
+            </figure>
+          </li>
+          <li>
+            <figure>
+              <img src="tutorial-image/upload%20file%20to%20remote%20repository.png" alt="Uploading files through the GitHub web interface" loading="lazy">
+              <figcaption><strong>Upload via the web UI</strong>You can also add files directly on github.com without using the terminal.</figcaption>
+            </figure>
+          </li>
+        </ol>
+      </section>
+
+      <section id="sync">
+        <h2>5. Sync with remote</h2>
+        <p class="lead">Keep your local branch up to date with changes others have pushed.</p>
+        <ol class="step-list">
+          <li>
+            <figure>
+              <img src="tutorial-image/git%20pull%20-%20pull%20remote%20main%20branch%20code%20to%20local%20main%20branch.png" alt="Terminal showing git pull from remote main" loading="lazy">
+              <figcaption><strong>Pull latest changes</strong><code>git pull</code> fetches and merges remote updates into your current branch.</figcaption>
+            </figure>
+          </li>
+        </ol>
+      </section>
+
+      <section id="branches">
+        <h2>6. Branches</h2>
+        <p class="lead">Work on isolated lines of development and clean up when you are done.</p>
+        <ol class="step-list">
+          <li>
+            <figure>
+              <img src="tutorial-image/After%20Fork%20create%20a%20new%20branch.png" alt="Creating a new branch after forking a repository" loading="lazy">
+              <figcaption><strong>Branch after a fork</strong>Create a branch on your fork before making changes you will contribute back.</figcaption>
+            </figure>
+          </li>
+          <li>
+            <figure>
+              <img src="tutorial-image/delete%20local%20and%20remote%20branch.png" alt="Commands to delete local and remote branches" loading="lazy">
+              <figcaption><strong>Delete branches</strong>Remove branches locally and on GitHub after a pull request is merged.</figcaption>
+            </figure>
+          </li>
+        </ol>
+      </section>
+
+      <section id="opensource">
+        <h2>7. Fork &amp; open source</h2>
+        <p class="lead">Contribute to projects you do not own by forking, branching, and opening pull requests.</p>
+        <ol class="step-list">
+          <li>
+            <figure>
+              <img src="tutorial-image/Fork.png" alt="GitHub Fork button on a repository" loading="lazy">
+              <figcaption><strong>Fork a repository</strong>A fork is your copy of someone else's repo under your GitHub account.</figcaption>
+            </figure>
+          </li>
+          <li>
+            <figure>
+              <img src="tutorial-image/How%20to%20contribute%20to%20open%20source.png" alt="Steps for contributing to open source" loading="lazy">
+              <figcaption><strong>Contribute to open source</strong>Find an issue, fork, branch, commit, push, and open a pull request.</figcaption>
+            </figure>
+          </li>
+          <li>
+            <figure>
+              <img src="tutorial-image/open%20source%20selection%20criteria.png" alt="Criteria for choosing an open source project" loading="lazy">
+              <figcaption><strong>Choosing a project</strong>Look for active maintenance, clear docs, and beginner-friendly issues.</figcaption>
+            </figure>
+          </li>
+        </ol>
+      </section>
+
+      <section id="setup">
+        <h2>8. Project setup</h2>
+        <p class="lead">Files and conventions that keep repositories clean and easy for others to use.</p>
+        <ol class="step-list">
+          <li>
+            <figure>
+              <img src="tutorial-image/gitignore-io.png" alt="gitignore.io website for generating .gitignore files" loading="lazy">
+              <figcaption><strong>Generate a .gitignore</strong>Use gitignore.io to build a ignore file for your OS, editor, and language.</figcaption>
+            </figure>
+          </li>
+          <li>
+            <figure>
+              <img src="tutorial-image/gitignore-io%20example.png" alt="Example .gitignore file contents" loading="lazy">
+              <figcaption><strong>.gitignore example</strong>Exclude build artifacts, dependencies, and secrets from version control.</figcaption>
+            </figure>
+          </li>
+          <li>
+            <figure>
+              <img src="tutorial-image/markdown%20example.png" alt="Markdown formatting example for README files" loading="lazy">
+              <figcaption><strong>Markdown for READMEs</strong>Format project docs with headings, lists, links, and code blocks.</figcaption>
+            </figure>
+          </li>
+          <li>
+            <figure>
+              <img src="tutorial-image/project%20license%20to%20use%20site.png" alt="choosealicense.com for picking a project license" loading="lazy">
+              <figcaption><strong>Choose a license</strong>choosealicense.com helps you pick how others may use your code.</figcaption>
+            </figure>
+          </li>
+        </ol>
+      </section>
+    </main>
+  </div>
+
+  <footer class="page-foot">
+    Screenshots from GitHub learning videos · <a href="index.html">Practice demo</a>
+  </footer>
+</body>
+</html>

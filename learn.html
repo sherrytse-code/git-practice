@@ -197,6 +197,84 @@
       color: var(--muted);
       font-size: 0.9rem;
     }
+
+    .guide-list {
+      margin: 0 0 1.5rem;
+      padding: 0;
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .guide-step {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    .guide-step > .guide-body {
+      padding: 1rem 1.1rem 0.85rem;
+    }
+
+    .guide-step h3 {
+      margin: 0 0 0.5rem;
+      font-size: 1.05rem;
+      color: var(--accent);
+    }
+
+    .guide-step p {
+      margin: 0 0 0.5rem;
+      font-size: 0.95rem;
+    }
+
+    .guide-step ul {
+      margin: 0;
+      padding-left: 1.25rem;
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    .guide-step li + li { margin-top: 0.25rem; }
+
+    .guide-step pre {
+      margin: 0.65rem 0 0;
+      padding: 0.75rem 1rem;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      overflow-x: auto;
+      font-family: ui-monospace, "SF Mono", Menlo, monospace;
+      font-size: 0.85rem;
+      line-height: 1.5;
+    }
+
+    .guide-step code {
+      font-family: ui-monospace, "SF Mono", Menlo, monospace;
+      font-size: 0.88em;
+      color: var(--accent);
+    }
+
+    .guide-step figure {
+      border-top: 1px solid var(--border);
+    }
+
+    .auth-note {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1rem 1.1rem;
+      font-size: 0.92rem;
+    }
+
+    .auth-note h3 {
+      margin: 0 0 0.5rem;
+      font-size: 1rem;
+    }
+
+    .auth-note p { margin: 0 0 0.5rem; }
+    .auth-note p:last-child { margin-bottom: 0; }
   </style>
 </head>
 <body>
@@ -214,9 +292,8 @@
       <h2>Contents</h2>
       <ol>
         <li><a href="#flow">The GitHub Flow</a></li>
-        <li><a href="#local">Local Git basics</a></li>
+        <li><a href="#local">Move local project to GitHub</a></li>
         <li><a href="#repos">Repositories &amp; clone</a></li>
-        <li><a href="#connect">Connect local to GitHub</a></li>
         <li><a href="#sync">Sync with remote</a></li>
         <li><a href="#branches">Branches</a></li>
         <li><a href="#opensource">Fork &amp; open source</a></li>
@@ -248,34 +325,133 @@
       </section>
 
       <section id="local">
-        <h2>2. Local Git basics</h2>
-        <p class="lead">Initialize a repo, stage files, commit changes, and inspect history from the terminal.</p>
-        <ol class="step-list">
-          <li>
+        <h2>2. How to move an existing local project to GitHub</h2>
+        <p class="lead">
+          Assume you already have a project folder on your computer and want to publish it on GitHub.
+          Follow these steps in order.
+        </p>
+
+        <ol class="guide-list">
+          <li class="guide-step">
+            <div class="guide-body">
+              <h3>1. Create a new repository on GitHub</h3>
+              <ul>
+                <li>Click <strong>New repository</strong></li>
+                <li>Give it a name</li>
+                <li>Choose <strong>Public</strong> or <strong>Private</strong></li>
+                <li>Do <strong>not</strong> initialize it with a README if your local project already exists</li>
+              </ul>
+            </div>
+            <figure>
+              <img src="tutorial-image/create%20a%20new%20repository.png" alt="GitHub UI for creating a new repository" loading="lazy">
+              <figcaption><strong>Create a new repository</strong>Start with an empty remote repo when you already have local code.</figcaption>
+            </figure>
+            <figure>
+              <img src="tutorial-image/create%20a%20remote%20repository%20in%20GitHub.png" alt="GitHub new repository settings" loading="lazy">
+              <figcaption><strong>Repository settings</strong>Leave README unchecked so you do not conflict with your existing local files.</figcaption>
+            </figure>
+          </li>
+
+          <li class="guide-step">
+            <div class="guide-body">
+              <h3>2. Open a terminal in your local project folder</h3>
+              <p>Use Terminal (macOS), PowerShell, or your editor’s integrated terminal. Your prompt should show the project directory.</p>
+            </div>
+          </li>
+
+          <li class="guide-step">
+            <div class="guide-body">
+              <h3>3. Initialize Git (if you haven’t already)</h3>
+              <pre>git init</pre>
+            </div>
             <figure>
               <img src="tutorial-image/git%20init.png" alt="Terminal showing git init and git status with hello.md" loading="lazy">
-              <figcaption><strong>Initialize a repository</strong>Use <code>git init</code> to enable version control, then <code>git status</code> to see untracked files.</figcaption>
+              <figcaption><strong>Initialize the repository</strong><code>git init</code> turns your folder into a Git repo so changes can be tracked.</figcaption>
             </figure>
           </li>
-          <li>
+
+          <li class="guide-step">
+            <div class="guide-body">
+              <h3>4. Add files</h3>
+              <pre>git add .</pre>
+            </div>
             <figure>
               <img src="tutorial-image/git%20add%20and%20git%20commit.png" alt="Terminal showing git add and git commit" loading="lazy">
-              <figcaption><strong>Stage and commit</strong>Stage changes with <code>git add</code>, then save a snapshot with <code>git commit -m "message"</code>.</figcaption>
+              <figcaption><strong>Stage all files</strong><code>git add .</code> prepares every file in the folder for the next commit.</figcaption>
             </figure>
           </li>
-          <li>
+
+          <li class="guide-step">
+            <div class="guide-body">
+              <h3>5. Commit files</h3>
+              <pre>git commit -m "Initial commit"</pre>
+            </div>
             <figure>
               <img src="tutorial-image/git%20show%20-%20result.png" alt="Terminal output from git show" loading="lazy">
-              <figcaption><strong>Inspect a commit</strong><code>git show</code> displays the latest commit details, including the diff.</figcaption>
+              <figcaption><strong>Save your first snapshot</strong>After committing, <code>git show</code> can confirm what was recorded.</figcaption>
             </figure>
           </li>
-          <li>
+
+          <li class="guide-step">
+            <div class="guide-body">
+              <h3>6. Connect your local project to GitHub</h3>
+              <pre>git remote add origin https://github.com/YOUR_USERNAME/REPO_NAME.git</pre>
+              <p>Replace <code>YOUR_USERNAME</code> and <code>REPO_NAME</code> with your GitHub username and the repository you created in step 1.</p>
+            </div>
             <figure>
-              <img src="tutorial-image/some%20basic%20github%20commands.png" alt="Reference of basic Git and GitHub commands" loading="lazy">
-              <figcaption><strong>Command cheat sheet</strong>Handy reference for everyday Git and GitHub commands.</figcaption>
+              <img src="tutorial-image/instruction%20to%20move%20a%20local%20project%20to%20a%20remote%20repository%20in%20GitHub.png" alt="GitHub instructions for pushing an existing local repository" loading="lazy">
+              <figcaption><strong>GitHub’s push instructions</strong>After creating an empty repo, GitHub shows the remote URL and commands to run locally.</figcaption>
+            </figure>
+            <figure>
+              <img src="tutorial-image/move%20a%20local%20project%20to%20a%20remote%20repository.png" alt="Terminal commands to add remote and push" loading="lazy">
+              <figcaption><strong>Add the remote</strong><code>git remote add origin</code> links your local repo to GitHub.</figcaption>
+            </figure>
+          </li>
+
+          <li class="guide-step">
+            <div class="guide-body">
+              <h3>7. Push code</h3>
+              <pre>git branch -M main
+git push -u origin main</pre>
+            </div>
+            <figure>
+              <img src="tutorial-image/add%20code%20to%20github%20process.png" alt="Overview of adding code to GitHub" loading="lazy">
+              <figcaption><strong>From local to GitHub</strong>Commits on your machine are uploaded to the remote when you push.</figcaption>
+            </figure>
+            <figure>
+              <img src="tutorial-image/push%20code%20to%20remote%20repository.png" alt="Terminal showing git push" loading="lazy">
+              <figcaption><strong>Push to GitHub</strong><code>git push -u origin main</code> publishes your branch and sets upstream tracking.</figcaption>
             </figure>
           </li>
         </ol>
+
+        <div class="auth-note">
+          <h3>Authentication</h3>
+          <p>If GitHub asks you to sign in when pushing:</p>
+          <ul>
+            <li>Use your <strong>GitHub username</strong></li>
+            <li>Use a <strong>Personal Access Token</strong> instead of your password</li>
+          </ul>
+          <p>
+            GitHub’s guide for tokens:
+            <a href="https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens">Managing your personal access tokens</a>
+          </p>
+        </div>
+
+        <figure class="flow-card" style="margin-top: 1.25rem;">
+          <img src="tutorial-image/create%20a%20new%20remote%20repository%20and%20generate%20token.png" alt="Creating a repository and personal access token" loading="lazy">
+          <figcaption style="padding: 0.85rem 1rem 1rem;"><strong>Generate a token</strong>Create a personal access token in GitHub settings before your first push from the terminal.</figcaption>
+        </figure>
+
+        <figure class="flow-card" style="margin-top: 1rem;">
+          <img src="tutorial-image/some%20basic%20github%20commands.png" alt="Reference of basic Git and GitHub commands" loading="lazy">
+          <figcaption style="padding: 0.85rem 1rem 1rem;"><strong>Command cheat sheet</strong>Quick reference for the commands used in this workflow.</figcaption>
+        </figure>
+
+        <figure class="flow-card" style="margin-top: 1rem;">
+          <img src="tutorial-image/upload%20file%20to%20remote%20repository.png" alt="Uploading files through the GitHub web interface" loading="lazy">
+          <figcaption style="padding: 0.85rem 1rem 1rem;"><strong>Optional: upload via the web UI</strong>Instead of the terminal, you can add individual files on github.com—useful for small updates, not for an entire existing project.</figcaption>
+        </figure>
       </section>
 
       <section id="repos">
@@ -321,45 +497,8 @@
         </ol>
       </section>
 
-      <section id="connect">
-        <h2>4. Connect local project to GitHub</h2>
-        <p class="lead">Link an existing folder on your machine to a remote repo and publish your work.</p>
-        <ol class="step-list">
-          <li>
-            <figure>
-              <img src="tutorial-image/instruction%20to%20move%20a%20local%20project%20to%20a%20remote%20repository%20in%20GitHub.png" alt="GitHub instructions for pushing an existing local repository" loading="lazy">
-              <figcaption><strong>GitHub setup instructions</strong>GitHub shows the exact commands to connect an existing local project.</figcaption>
-            </figure>
-          </li>
-          <li>
-            <figure>
-              <img src="tutorial-image/move%20a%20local%20project%20to%20a%20remote%20repository.png" alt="Terminal commands to add remote and push" loading="lazy">
-              <figcaption><strong>Add remote and push</strong>Typical steps: <code>git remote add origin</code>, then <code>git push -u origin main</code>.</figcaption>
-            </figure>
-          </li>
-          <li>
-            <figure>
-              <img src="tutorial-image/add%20code%20to%20github%20process.png" alt="Overview of adding code to GitHub" loading="lazy">
-              <figcaption><strong>Add code workflow</strong>How local commits become commits on GitHub.</figcaption>
-            </figure>
-          </li>
-          <li>
-            <figure>
-              <img src="tutorial-image/push%20code%20to%20remote%20repository.png" alt="Terminal showing git push" loading="lazy">
-              <figcaption><strong>Push to remote</strong><code>git push</code> uploads your commits to the remote repository.</figcaption>
-            </figure>
-          </li>
-          <li>
-            <figure>
-              <img src="tutorial-image/upload%20file%20to%20remote%20repository.png" alt="Uploading files through the GitHub web interface" loading="lazy">
-              <figcaption><strong>Upload via the web UI</strong>You can also add files directly on github.com without using the terminal.</figcaption>
-            </figure>
-          </li>
-        </ol>
-      </section>
-
       <section id="sync">
-        <h2>5. Sync with remote</h2>
+        <h2>4. Sync with remote</h2>
         <p class="lead">Keep your local branch up to date with changes others have pushed.</p>
         <ol class="step-list">
           <li>
@@ -372,7 +511,7 @@
       </section>
 
       <section id="branches">
-        <h2>6. Branches</h2>
+        <h2>5. Branches</h2>
         <p class="lead">Work on isolated lines of development and clean up when you are done.</p>
         <ol class="step-list">
           <li>
@@ -391,7 +530,7 @@
       </section>
 
       <section id="opensource">
-        <h2>7. Fork &amp; open source</h2>
+        <h2>6. Fork &amp; open source</h2>
         <p class="lead">Contribute to projects you do not own by forking, branching, and opening pull requests.</p>
         <ol class="step-list">
           <li>
@@ -416,7 +555,7 @@
       </section>
 
       <section id="setup">
-        <h2>8. Project setup</h2>
+        <h2>7. Project setup</h2>
         <p class="lead">Files and conventions that keep repositories clean and easy for others to use.</p>
         <ol class="step-list">
           <li>

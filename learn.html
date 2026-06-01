@@ -355,18 +355,21 @@
           <li class="guide-step">
             <div class="guide-body">
               <h3>2. Open a terminal in your local project folder</h3>
-              <p>Use Terminal (macOS), PowerShell, or your editor’s integrated terminal. Your prompt should show the project directory.</p>
+              <p>Open Mac terminal and go to your project folder.</p>
             </div>
           </li>
 
           <li class="guide-step">
             <div class="guide-body">
               <h3>3. Initialize Git (if you haven’t already)</h3>
-              <pre>git init</pre>
+              <pre>git init
+git status
+git add .</pre>
+              <p><code>git init</code> turns your folder into a Git repo. <code>git status</code> shows untracked files. <code>git add .</code> stages everything for the next commit.</p>
             </div>
             <figure>
-              <img src="tutorial-image/git%20init.png" alt="Terminal showing git init and git status with hello.md" loading="lazy">
-              <figcaption><strong>Initialize the repository</strong><code>git init</code> turns your folder into a Git repo so changes can be tracked.</figcaption>
+              <img src="tutorial-image/git%20init.png" alt="Terminal showing git init, git status, and git add" loading="lazy">
+              <figcaption><strong>Initialize and stage</strong>Run <code>git init</code>, check what’s new with <code>git status</code>, then stage all files with <code>git add .</code>.</figcaption>
             </figure>
           </li>
 

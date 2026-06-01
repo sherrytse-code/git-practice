@@ -197,14 +197,93 @@
       color: var(--muted);
       font-size: 0.9rem;
     }
+
+    .guide-list {
+      margin: 0 0 1.5rem;
+      padding: 0;
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .guide-step {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    .guide-step > .guide-body {
+      padding: 1rem 1.1rem 0.85rem;
+    }
+
+    .guide-step h3 {
+      margin: 0 0 0.5rem;
+      font-size: 1.05rem;
+      color: var(--accent);
+    }
+
+    .guide-step p {
+      margin: 0 0 0.5rem;
+      font-size: 0.95rem;
+    }
+
+    .guide-step ul {
+      margin: 0;
+      padding-left: 1.25rem;
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    .guide-step li + li { margin-top: 0.25rem; }
+
+    .guide-step pre {
+      margin: 0.65rem 0 0;
+      padding: 0.75rem 1rem;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      overflow-x: auto;
+      font-family: ui-monospace, "SF Mono", Menlo, monospace;
+      font-size: 0.85rem;
+      line-height: 1.5;
+    }
+
+    .guide-step code {
+      font-family: ui-monospace, "SF Mono", Menlo, monospace;
+      font-size: 0.88em;
+      color: var(--accent);
+    }
+
+    .guide-step figure {
+      border-top: 1px solid var(--border);
+    }
+
+    .auth-note {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1rem 1.1rem;
+      font-size: 0.92rem;
+    }
+
+    .auth-note h3 {
+      margin: 0 0 0.5rem;
+      font-size: 1rem;
+    }
+
+    .auth-note p { margin: 0 0 0.5rem; }
+    .auth-note p:last-child { margin-bottom: 0; }
   </style>
 </head>
 <body>
   <header class="hero">
     <h1>Learn Git &amp; GitHub</h1>
     <p>
-      A visual walkthrough from the GitHub learning videos. Work through each section in order,
-      or jump to a topic from the table of contents.
+      A visual walkthrough from the GitHub learning videos. Start with Git Flow concepts,
+      learn individual commands, then follow two end-to-end examples—collaborating on an existing
+      repo or publishing a local project for the first time.
     </p>
     <p style="margin-top: 0.75rem;"><a href="index.html">← Back to practice demo</a></p>
   </header>
@@ -213,22 +292,20 @@
     <nav class="toc" aria-label="Table of contents">
       <h2>Contents</h2>
       <ol>
-        <li><a href="#flow">The GitHub Flow</a></li>
-        <li><a href="#local">Local Git basics</a></li>
-        <li><a href="#repos">Repositories &amp; clone</a></li>
-        <li><a href="#connect">Connect local to GitHub</a></li>
-        <li><a href="#sync">Sync with remote</a></li>
-        <li><a href="#branches">Branches</a></li>
-        <li><a href="#opensource">Fork &amp; open source</a></li>
-        <li><a href="#setup">Project setup</a></li>
+        <li><a href="#git-flow">Git Flow</a></li>
+        <li><a href="#basic-commands">Basic Git Commands</a></li>
+        <li><a href="#full-flow-example">Full Git Flow Example</a></li>
+        <li><a href="#link-local-to-remote">Link Local Project to GitHub</a></li>
+        <li><a href="#project-setup">Project Setup</a></li>
+        <li><a href="#fork-open-source">Fork &amp; open source <span style="color: var(--muted);">(optional)</span></a></li>
       </ol>
     </nav>
 
     <main>
-      <section id="flow">
-        <h2>1. The GitHub Flow</h2>
+      <section id="git-flow">
+        <h2>1. Git Flow</h2>
         <p class="lead">
-          The standard loop: clone a repo, branch, commit locally, push, open a pull request, then merge.
+          The standard collaborative loop: clone a repo, branch, commit locally, push, open a pull request, then merge.
         </p>
         <ul class="flow-steps" aria-label="GitHub flow commands">
           <li>git clone</li>
@@ -245,74 +322,149 @@
             <figcaption><strong>GitHub workflow overview</strong>End-to-end flow from cloning to merging a pull request.</figcaption>
           </figure>
         </div>
+        <div class="flow-card" style="margin-top: 1rem;">
+          <figure>
+            <img src="tutorial-image/some%20basic%20github%20commands.png" alt="Git terminology and where changes live at each step" loading="lazy">
+            <figcaption><strong>Key concepts</strong>Fork, clone, branch, commit, push, and PR—and where your change lives after each command (<code>git add</code>, <code>git commit</code>, <code>git push</code>).</figcaption>
+          </figure>
+        </div>
+        <div class="flow-card" style="margin-top: 1rem;">
+          <figure>
+            <img src="tutorial-image/Fork.png" alt="Definition of a Git fork" loading="lazy">
+            <figcaption><strong>Fork</strong>A copy of someone else’s repo under your account—used to contribute to open source without affecting the original project.</figcaption>
+          </figure>
+        </div>
       </section>
 
-      <section id="local">
-        <h2>2. Local Git basics</h2>
-        <p class="lead">Initialize a repo, stage files, commit changes, and inspect history from the terminal.</p>
+      <section id="basic-commands">
+        <h2>2. Basic Git Commands</h2>
+        <p class="lead">
+          One screenshot per core command. Use this section as a reference before following the full walkthroughs below.
+        </p>
         <ol class="step-list">
           <li>
             <figure>
-              <img src="tutorial-image/git%20init.png" alt="Terminal showing git init and git status with hello.md" loading="lazy">
-              <figcaption><strong>Initialize a repository</strong>Use <code>git init</code> to enable version control, then <code>git status</code> to see untracked files.</figcaption>
+              <img src="tutorial-image/git%20init.png" alt="Terminal showing git init, git status, and git add" loading="lazy">
+              <figcaption><strong><code>git init</code>, <code>git status</code>, <code>git add .</code></strong>Turn a folder into a Git repo, see untracked files, then stage everything for the next commit.</figcaption>
             </figure>
           </li>
           <li>
             <figure>
-              <img src="tutorial-image/git%20add%20and%20git%20commit.png" alt="Terminal showing git add and git commit" loading="lazy">
-              <figcaption><strong>Stage and commit</strong>Stage changes with <code>git add</code>, then save a snapshot with <code>git commit -m "message"</code>.</figcaption>
+              <img src="tutorial-image/git%20add%20and%20git%20commit.png" alt="Terminal showing touch newfile.js, git status, and git commit" loading="lazy">
+              <figcaption><strong><code>git add</code> and <code>git commit</code></strong>Create a new file, check <code>git status</code>, then commit staged changes with a message.</figcaption>
             </figure>
           </li>
           <li>
             <figure>
-              <img src="tutorial-image/git%20show%20-%20result.png" alt="Terminal output from git show" loading="lazy">
-              <figcaption><strong>Inspect a commit</strong><code>git show</code> displays the latest commit details, including the diff.</figcaption>
+              <img src="tutorial-image/git%20clone.png" alt="Terminal showing git clone and branch commands" loading="lazy">
+              <figcaption><strong><code>git clone</code> and branching</strong>Download a repo, create a branch with <code>git checkout -b</code>, list branches, and switch back to <code>main</code>.</figcaption>
             </figure>
           </li>
           <li>
             <figure>
-              <img src="tutorial-image/some%20basic%20github%20commands.png" alt="Reference of basic Git and GitHub commands" loading="lazy">
-              <figcaption><strong>Command cheat sheet</strong>Handy reference for everyday Git and GitHub commands.</figcaption>
+              <img src="tutorial-image/push%20code%20to%20remote%20repository.png" alt="Terminal showing git add, git commit, and git push" loading="lazy">
+              <figcaption><strong><code>git push</code></strong>Stage changes, commit a snapshot, then push your branch to GitHub. GitHub returns a link to open a pull request.</figcaption>
+            </figure>
+          </li>
+          <li>
+            <figure>
+              <img src="tutorial-image/git%20pull%20-%20pull%20remote%20main%20branch%20code%20to%20local%20main%20branch.png" alt="Terminal showing git switch main and git pull" loading="lazy">
+              <figcaption><strong><code>git pull</code></strong>Switch to <code>main</code> and pull remote changes so your local copy stays in sync after a merge.</figcaption>
+            </figure>
+          </li>
+          <li>
+            <figure>
+              <img src="tutorial-image/git%20show%20-%20result.png" alt="Terminal output from git show showing a merge commit" loading="lazy">
+              <figcaption><strong><code>git show</code></strong>Inspect the latest commit—author, date, message, and files changed. This example shows a merged pull request commit.</figcaption>
+            </figure>
+          </li>
+          <li>
+            <figure>
+              <img src="tutorial-image/delete%20local%20and%20remote%20branch.png" alt="Terminal showing git branch -d and git push --delete" loading="lazy">
+              <figcaption><strong>Delete branches</strong>Remove a feature branch locally with <code>git branch -d</code> and on GitHub with <code>git push --delete origin &lt;branch&gt;</code>.</figcaption>
             </figure>
           </li>
         </ol>
       </section>
 
-      <section id="repos">
-        <h2>3. Repositories &amp; clone</h2>
-        <p class="lead">Create a repo on GitHub, authenticate, and get a copy on your machine—via CLI or GitHub Desktop.</p>
-        <ol class="step-list">
-          <li>
+      <section id="full-flow-example">
+        <h2>3. Full Git Flow Example</h2>
+        <p class="lead">
+          Follow the <strong>GitGoing</strong> project from clone to cleanup. Commands from Section 2 appear here in context—refer back for individual command details.
+        </p>
+
+        <ol class="guide-list">
+          <li class="guide-step">
+            <div class="guide-body">
+              <h3>1. Overview</h3>
+              <p>The full loop in three panels: clone and branch, commit and push, then sync and merge.</p>
+            </div>
             <figure>
-              <img src="tutorial-image/create%20a%20new%20repository.png" alt="GitHub UI for creating a new repository" loading="lazy">
-              <figcaption><strong>Create a new repository</strong>Start a project on GitHub with a name, description, and visibility.</figcaption>
+              <img src="tutorial-image/add%20code%20to%20github%20process.png" alt="Three-panel overview of the GitGoing workflow" loading="lazy">
+              <figcaption><strong>End-to-end workflow</strong>Clone → branch → edit → stage → commit → push → pull → merge.</figcaption>
             </figure>
           </li>
-          <li>
-            <figure>
-              <img src="tutorial-image/create%20a%20remote%20repository%20in%20GitHub.png" alt="GitHub new repository settings" loading="lazy">
-              <figcaption><strong>Remote repository options</strong>Choose defaults like README, .gitignore, and license when creating the repo.</figcaption>
-            </figure>
-          </li>
-          <li>
-            <figure>
-              <img src="tutorial-image/create%20a%20new%20remote%20repository%20and%20generate%20token.png" alt="Creating a repository and personal access token" loading="lazy">
-              <figcaption><strong>Authentication</strong>Generate a personal access token so Git can push to GitHub securely.</figcaption>
-            </figure>
-          </li>
-          <li>
-            <figure>
-              <img src="tutorial-image/git%20clone.png" alt="Terminal showing git clone" loading="lazy">
-              <figcaption><strong>Clone with Git</strong><code>git clone &lt;url&gt;</code> downloads the full repository to your computer.</figcaption>
-            </figure>
-          </li>
-          <li>
+
+          <li class="guide-step">
+            <div class="guide-body">
+              <h3>2. Clone and branch</h3>
+              <pre>git clone https://github.com/LadyKerr/GitGoing.git
+cd gitgoing
+git checkout -b version1</pre>
+              <p>Download the repo, enter the project folder, and create a feature branch to work in safely.</p>
+            </div>
             <figure>
               <img src="tutorial-image/Screenshot%202026-05-16%20at%2010.01.19%E2%80%AFAM.png" alt="Terminal showing git clone and git checkout -b version1" loading="lazy">
-              <figcaption><strong>Clone then branch</strong>After cloning, <code>cd</code> into the project and create a branch with <code>git checkout -b &lt;name&gt;</code>.</figcaption>
+              <figcaption><strong>Clone then branch</strong>After cloning, <code>cd</code> into the project and create a branch with <code>git checkout -b version1</code>.</figcaption>
             </figure>
           </li>
-          <li>
+
+          <li class="guide-step">
+            <div class="guide-body">
+              <h3>3. Edit, stage, commit, and push</h3>
+              <pre>code .
+touch index.html script.js
+git status
+git add .
+git commit -m "created initil project"
+git push origin version1</pre>
+              <p>Make your changes, stage them, commit, and push the feature branch. See <a href="#basic-commands">Basic Git Commands</a> for <code>git add</code>, <code>git commit</code>, and <code>git push</code> screenshots.</p>
+            </div>
+          </li>
+
+          <li class="guide-step">
+            <div class="guide-body">
+              <h3>4. Sync main after merge</h3>
+              <pre>git switch main
+git pull</pre>
+              <p>After your pull request is merged on GitHub, switch to <code>main</code> and pull so your local branch matches the remote. See the <code>git pull</code> screenshot in <a href="#basic-commands">Basic Git Commands</a>.</p>
+            </div>
+          </li>
+
+          <li class="guide-step">
+            <div class="guide-body">
+              <h3>5. Merge updates into your feature branch</h3>
+              <pre>git switch version1
+git merge main</pre>
+              <p>Bring the latest <code>main</code> changes into your feature branch before continuing work.</p>
+            </div>
+          </li>
+
+          <li class="guide-step">
+            <div class="guide-body">
+              <h3>6. Clean up branches</h3>
+              <pre>git show
+git branch -d update-name
+git push --delete origin update-name</pre>
+              <p>Inspect the merged commit, then delete the feature branch locally and on GitHub. See the delete-branch and <code>git show</code> screenshots in <a href="#basic-commands">Basic Git Commands</a>.</p>
+            </div>
+          </li>
+
+          <li class="guide-step">
+            <div class="guide-body">
+              <h3>7. Alternative: clone with GitHub Desktop</h3>
+              <p>Prefer a graphical interface? GitHub Desktop performs the same clone step without the terminal.</p>
+            </div>
             <figure>
               <img src="tutorial-image/github%20desktop%20cloning%20example.png" alt="GitHub Desktop clone repository dialog" loading="lazy">
               <figcaption><strong>Clone with GitHub Desktop</strong>Same result as <code>git clone</code>, using a graphical interface.</figcaption>
@@ -321,108 +473,106 @@
         </ol>
       </section>
 
-      <section id="connect">
-        <h2>4. Connect local project to GitHub</h2>
-        <p class="lead">Link an existing folder on your machine to a remote repo and publish your work.</p>
-        <ol class="step-list">
-          <li>
+      <section id="link-local-to-remote">
+        <h2>4. Link an Existing Local Project to GitHub</h2>
+        <p class="lead">
+          You already have a project folder on your computer and want to publish it on GitHub for the first time.
+          This walkthrough uses the <strong>python-game</strong> example.
+        </p>
+
+        <ol class="guide-list">
+          <li class="guide-step">
+            <div class="guide-body">
+              <h3>1. Create a new repository on GitHub</h3>
+              <ul>
+                <li>Click <strong>New repository</strong></li>
+                <li>Give it a name</li>
+                <li>Choose <strong>Public</strong> or <strong>Private</strong></li>
+                <li>Do <strong>not</strong> initialize it with a README if your local project already exists</li>
+              </ul>
+            </div>
             <figure>
-              <img src="tutorial-image/instruction%20to%20move%20a%20local%20project%20to%20a%20remote%20repository%20in%20GitHub.png" alt="GitHub instructions for pushing an existing local repository" loading="lazy">
-              <figcaption><strong>GitHub setup instructions</strong>GitHub shows the exact commands to connect an existing local project.</figcaption>
+              <img src="tutorial-image/create%20a%20new%20repository.png" alt="GitHub UI for creating a new repository" loading="lazy">
+              <figcaption><strong>Create a new repository</strong>Start with an empty remote repo when you already have local code.</figcaption>
+            </figure>
+            <figure>
+              <img src="tutorial-image/create%20a%20remote%20repository%20in%20GitHub.png" alt="GitHub new repository settings" loading="lazy">
+              <figcaption><strong>Repository settings</strong>Leave README unchecked so you do not conflict with your existing local files.</figcaption>
             </figure>
           </li>
-          <li>
+
+          <li class="guide-step">
+            <div class="guide-body">
+              <h3>2. Set up authentication</h3>
+              <p>Before your first push, generate a Personal Access Token. When Git prompts for a password, enter the token—not your GitHub login password.</p>
+              <p>
+                GitHub’s guide:
+                <a href="https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens">Managing your personal access tokens</a>
+              </p>
+            </div>
             <figure>
-              <img src="tutorial-image/move%20a%20local%20project%20to%20a%20remote%20repository.png" alt="Terminal commands to add remote and push" loading="lazy">
-              <figcaption><strong>Add remote and push</strong>Typical steps: <code>git remote add origin</code>, then <code>git push -u origin main</code>.</figcaption>
+              <img src="tutorial-image/create%20a%20new%20remote%20repository%20and%20generate%20token.png" alt="Creating a personal access token on GitHub" loading="lazy">
+              <figcaption><strong>Generate a token</strong>Add repository permissions and generate a token before pushing from the terminal.</figcaption>
             </figure>
           </li>
-          <li>
+
+          <li class="guide-step">
+            <div class="guide-body">
+              <h3>3. Initialize Git locally</h3>
+              <pre>git init
+touch README.md
+git add .
+git commit -m "initial commit"</pre>
+              <p><code>git init</code> turns your folder into a Git repo. Stage and commit your existing project files.</p>
+            </div>
             <figure>
-              <img src="tutorial-image/add%20code%20to%20github%20process.png" alt="Overview of adding code to GitHub" loading="lazy">
-              <figcaption><strong>Add code workflow</strong>How local commits become commits on GitHub.</figcaption>
+              <img src="tutorial-image/move%20a%20local%20project%20to%20a%20remote%20repository.png" alt="Terminal showing git init through initial commit" loading="lazy">
+              <figcaption><strong>Initialize and commit</strong>Run <code>git init</code>, add your files, and create the first commit.</figcaption>
             </figure>
           </li>
-          <li>
+
+          <li class="guide-step">
+            <div class="guide-body">
+              <h3>4. Connect to the remote repository</h3>
+              <pre>git branch -M main
+git remote add origin https://github.com/YOUR_USERNAME/REPO_NAME.git</pre>
+              <p>Rename your default branch to <code>main</code> and link your local repo to the empty GitHub repository you created in step 1.</p>
+            </div>
+          </li>
+
+          <li class="guide-step">
+            <div class="guide-body">
+              <h3>5. Push to GitHub</h3>
+              <pre>git push -u origin main</pre>
+              <p>Upload your commits and set <code>main</code> to track the remote branch.</p>
+            </div>
             <figure>
-              <img src="tutorial-image/push%20code%20to%20remote%20repository.png" alt="Terminal showing git push" loading="lazy">
-              <figcaption><strong>Push to remote</strong><code>git push</code> uploads your commits to the remote repository.</figcaption>
+              <img src="tutorial-image/instruction%20to%20move%20a%20local%20project%20to%20a%20remote%20repository%20in%20GitHub.png" alt="GitHub command-line instructions for pushing an existing repository" loading="lazy">
+              <figcaption><strong>GitHub’s command reference</strong>After creating an empty repo, GitHub shows the full sequence from <code>git init</code> through <code>git push -u origin main</code>.</figcaption>
             </figure>
           </li>
-          <li>
+
+          <li class="guide-step">
+            <div class="guide-body">
+              <h3>6. Optional: upload via the web UI</h3>
+              <p>For small updates, you can add individual files on github.com instead of using the terminal.</p>
+            </div>
             <figure>
               <img src="tutorial-image/upload%20file%20to%20remote%20repository.png" alt="Uploading files through the GitHub web interface" loading="lazy">
-              <figcaption><strong>Upload via the web UI</strong>You can also add files directly on github.com without using the terminal.</figcaption>
+              <figcaption><strong>Upload on GitHub.com</strong>Click the <strong>+</strong> button on your repo page to add a file through the browser.</figcaption>
             </figure>
           </li>
         </ol>
       </section>
 
-      <section id="sync">
-        <h2>5. Sync with remote</h2>
-        <p class="lead">Keep your local branch up to date with changes others have pushed.</p>
-        <ol class="step-list">
-          <li>
-            <figure>
-              <img src="tutorial-image/git%20pull%20-%20pull%20remote%20main%20branch%20code%20to%20local%20main%20branch.png" alt="Terminal showing git pull from remote main" loading="lazy">
-              <figcaption><strong>Pull latest changes</strong><code>git pull</code> fetches and merges remote updates into your current branch.</figcaption>
-            </figure>
-          </li>
-        </ol>
-      </section>
-
-      <section id="branches">
-        <h2>6. Branches</h2>
-        <p class="lead">Work on isolated lines of development and clean up when you are done.</p>
-        <ol class="step-list">
-          <li>
-            <figure>
-              <img src="tutorial-image/After%20Fork%20create%20a%20new%20branch.png" alt="Creating a new branch after forking a repository" loading="lazy">
-              <figcaption><strong>Branch after a fork</strong>Create a branch on your fork before making changes you will contribute back.</figcaption>
-            </figure>
-          </li>
-          <li>
-            <figure>
-              <img src="tutorial-image/delete%20local%20and%20remote%20branch.png" alt="Commands to delete local and remote branches" loading="lazy">
-              <figcaption><strong>Delete branches</strong>Remove branches locally and on GitHub after a pull request is merged.</figcaption>
-            </figure>
-          </li>
-        </ol>
-      </section>
-
-      <section id="opensource">
-        <h2>7. Fork &amp; open source</h2>
-        <p class="lead">Contribute to projects you do not own by forking, branching, and opening pull requests.</p>
-        <ol class="step-list">
-          <li>
-            <figure>
-              <img src="tutorial-image/Fork.png" alt="GitHub Fork button on a repository" loading="lazy">
-              <figcaption><strong>Fork a repository</strong>A fork is your copy of someone else's repo under your GitHub account.</figcaption>
-            </figure>
-          </li>
-          <li>
-            <figure>
-              <img src="tutorial-image/How%20to%20contribute%20to%20open%20source.png" alt="Steps for contributing to open source" loading="lazy">
-              <figcaption><strong>Contribute to open source</strong>Find an issue, fork, branch, commit, push, and open a pull request.</figcaption>
-            </figure>
-          </li>
-          <li>
-            <figure>
-              <img src="tutorial-image/open%20source%20selection%20criteria.png" alt="Criteria for choosing an open source project" loading="lazy">
-              <figcaption><strong>Choosing a project</strong>Look for active maintenance, clear docs, and beginner-friendly issues.</figcaption>
-            </figure>
-          </li>
-        </ol>
-      </section>
-
-      <section id="setup">
-        <h2>8. Project setup</h2>
+      <section id="project-setup">
+        <h2>5. Project Setup</h2>
         <p class="lead">Files and conventions that keep repositories clean and easy for others to use.</p>
         <ol class="step-list">
           <li>
             <figure>
               <img src="tutorial-image/gitignore-io.png" alt="gitignore.io website for generating .gitignore files" loading="lazy">
-              <figcaption><strong>Generate a .gitignore</strong>Use gitignore.io to build a ignore file for your OS, editor, and language.</figcaption>
+              <figcaption><strong>Generate a .gitignore</strong>Use gitignore.io to build an ignore file for your OS, editor, and language.</figcaption>
             </figure>
           </li>
           <li>
@@ -441,6 +591,34 @@
             <figure>
               <img src="tutorial-image/project%20license%20to%20use%20site.png" alt="choosealicense.com for picking a project license" loading="lazy">
               <figcaption><strong>Choose a license</strong>choosealicense.com helps you pick how others may use your code.</figcaption>
+            </figure>
+          </li>
+        </ol>
+      </section>
+
+      <section id="fork-open-source">
+        <h2>6. Fork &amp; Open Source <span style="font-size: 0.85rem; color: var(--muted); font-weight: normal;">(optional)</span></h2>
+        <p class="lead">
+          Contribute to projects you do not own by forking, branching, and opening pull requests.
+          See <a href="#git-flow">Git Flow</a> for the fork concept.
+        </p>
+        <ol class="step-list">
+          <li>
+            <figure>
+              <img src="tutorial-image/open%20source%20selection%20criteria.png" alt="Criteria for choosing an open source project" loading="lazy">
+              <figcaption><strong>Choosing a project</strong>Look for a documented README, contributor guide, open source license, active development, and a “good first issue” label.</figcaption>
+            </figure>
+          </li>
+          <li>
+            <figure>
+              <img src="tutorial-image/After%20Fork%20create%20a%20new%20branch.png" alt="GitHub web UI for proposing changes on a new branch" loading="lazy">
+              <figcaption><strong>Propose changes on a branch</strong>When editing on GitHub, choose “Create a new branch for this commit and start a pull request” instead of committing directly to <code>main</code>.</figcaption>
+            </figure>
+          </li>
+          <li>
+            <figure>
+              <img src="tutorial-image/How%20to%20contribute%20to%20open%20source.png" alt="README Quick Start with clone and npm commands" loading="lazy">
+              <figcaption><strong>README Quick Start</strong>After cloning a project, follow its setup steps—often <code>npm install</code> and <code>npm run dev</code>—before making changes.</figcaption>
             </figure>
           </li>
         </ol>
